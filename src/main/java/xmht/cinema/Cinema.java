@@ -1,0 +1,61 @@
+package xmht.cinema;
+
+/**
+ * Created by shengjk1 on 2016/12/19.
+ */
+public class Cinema {
+	private long vacanciesCinema1;
+	private long vacanciesCinema2;
+	private final Object controlCinemal1,controlCinemal2;
+	
+	public Cinema() {
+		controlCinemal1=new Object();
+		controlCinemal2=new Object();
+		vacanciesCinema1=20;
+		vacanciesCinema2=20;
+	}
+	
+	public boolean sellTickets1(int number){
+		synchronized (controlCinemal1){
+			if(number<vacanciesCinema1){
+				vacanciesCinema1-=number;
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+	
+	public boolean sellTickets2(int number){
+		synchronized (controlCinemal2){
+			if(number<vacanciesCinema2){
+				vacanciesCinema2-=number;
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+	
+	//有票退回
+	public boolean returnTickets1(int number){
+		synchronized (controlCinemal1){
+			vacanciesCinema1+=number;
+			return true;
+		}
+	}
+	
+	public boolean returnTickets2(int number){
+		synchronized (controlCinemal2){
+			vacanciesCinema2+=number;
+			return true;
+		}
+	}
+	
+	public long getVacanciesCinema1(){
+		return vacanciesCinema1;
+	}
+	public long getVacanciesCinema2(){
+		return vacanciesCinema2;
+	}
+}
