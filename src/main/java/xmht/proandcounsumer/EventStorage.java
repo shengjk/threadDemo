@@ -12,35 +12,38 @@ public class EventStorage {
 	private int maxSize;
 	private List<Date> stroage;
 	
-	public EventStorage(int maxSize, List<Date> stroage) {
-		this.maxSize = maxSize;
-		this.stroage = stroage;
+	public EventStorage() {
+		maxSize=10;
+		stroage=new LinkedList<>();
 	}
+	
 	
 	public synchronized void set(){
 		while (stroage.size()==maxSize){
 			try {
-				wait();
+				System.out.println("set wait");
+				wait();//必须在循环里面
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			stroage.add(new Date());
-			System.out.println(" === "+stroage.size());
-			notifyAll();
 		}
+		stroage.add(new Date());
+		System.out.println(" ===set "+stroage.size());
+		notifyAll();
 	}
 	
 	public synchronized void get(){
 		while (stroage.size()==0){
 			try {
+				System.out.println("get wait");
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			stroage.add(new Date());
-			System.out.println(" ===get "+stroage.size()+" "+((LinkedList<?>)stroage).poll());
-			notifyAll();
 		}
+//		stroage.add(new Date());
+		System.out.println(" ===get "+stroage.size()+" "+((LinkedList<?>)stroage).poll());
+		notifyAll();
 	}
 	
 }
