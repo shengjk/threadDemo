@@ -12,6 +12,7 @@ public class TicketOfficel implements Runnable{
 		this.cinema = cinema;
 	}
 	
+	
 	@Override
 	public void run() {
 		cinema.sellTickets1(3);
