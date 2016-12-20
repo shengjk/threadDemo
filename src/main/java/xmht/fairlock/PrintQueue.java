@@ -1,4 +1,4 @@
-package xmht.lock;
+package xmht.fairlock;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,13 +28,14 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public class PrintQueue {
-	private final Lock queueLock=new ReentrantLock();
-	
+	//公平锁是根据锁排队的时间来进行调度的，排队时间越长越会优先调度。
+	private final Lock queueLock=new ReentrantLock(true);
+
 	public void printJob(Object document){
 		queueLock.lock();
 		
 		try {
-			Long duration=(long)(Math.random()*10000);
+			Long duration=(long)(Math.random()*1000);
 			System.out.println(Thread.currentThread().getName()
 			+": PrintQueue ");
 			Thread.sleep(duration);
@@ -44,12 +45,9 @@ public class PrintQueue {
 			queueLock.unlock();
 		}
 		
-		
-		
 		queueLock.lock();
-		
 		try {
-			Long duration=(long)(Math.random()*10000);
+			Long duration=(long)(Math.random()*10);
 			System.out.println(Thread.currentThread().getName()
 					+": 2PrintQueue ");
 			Thread.sleep(duration);
@@ -58,6 +56,5 @@ public class PrintQueue {
 		} finally {
 			queueLock.unlock();
 		}
-		
 	}
 }
