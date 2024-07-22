@@ -13,11 +13,19 @@ public class LockUseCase {
 及超时获取锁等多种synchronized关键字所不具备的同步特性。
      */
     public static void main(String[] args) {
+        //默认是不公平的，公平就是先请求先获取锁
         ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        lock.lock();
+        lock.lock();
+        lock.lock();
+        lock.lock();
+        lock.lock();
         lock.lock();
         try {
 
         }finally {
+            lock.unlock();
             lock.unlock();
         }
     }

@@ -25,6 +25,7 @@ public class ConnectionDriver {
         }
     }
     public static final Connection createConnection(){
+        //代理
         return (Connection) Proxy.newProxyInstance(ConnectionDriver.class.getClassLoader(),new Class[]{Connection.class},new ConnectionHandler());
     }
 }
