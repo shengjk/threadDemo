@@ -21,7 +21,7 @@ public class ThreadJoin1 {
         };
         thread.start();
 
-        thread.join();
+        thread.join(1000,10);
         System.out.println("threadB执行完成，主线程继续往下执行");
     }
 }
